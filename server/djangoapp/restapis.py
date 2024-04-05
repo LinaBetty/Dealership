@@ -1,5 +1,5 @@
 # Uncomment the imports below before you add the function code
-# import requests
+import requests
 import os
 from dotenv import load_dotenv
 
@@ -13,20 +13,6 @@ sentiment_analyzer_url = os.getenv(
 
 # def get_request(endpoint, **kwargs):
 # Add code for get requests to back end
-
-# def analyze_review_sentiments(text):
-# request_url = sentiment_analyzer_url+"analyze/"+text
-# Add code for retrieving sentiments
-
-def post_review(data_dict):
-    request_url = backend_url+"/insert_review"
-    try:
-        response = requests.post(request_url,json=data_dict)
-        print(response.json())
-        return response.json()
-    except:
-        print("Network exception occurred")
-
 def get_request(endpoint, **kwargs):
     params = ""
     if(kwargs):
@@ -42,6 +28,20 @@ def get_request(endpoint, **kwargs):
         return response.json()
     except:
         # If any error occurs
+        print("Network exception occurred")
+
+
+# def analyze_review_sentiments(text):
+# request_url = sentiment_analyzer_url+"analyze/"+text
+# Add code for retrieving sentiments
+
+def post_review(data_dict):
+    request_url = backend_url+"/insert_review"
+    try:
+        response = requests.post(request_url,json=data_dict)
+        print(response.json())
+        return response.json()
+    except:
         print("Network exception occurred")
 
 def analyze_review_sentiments(text):
