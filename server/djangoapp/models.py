@@ -1,20 +1,20 @@
 # Uncomment the following imports before adding the Model code
 
 from django.db import models
-from django.utils.timezone import now
+#from django.utils.timezone import now
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class CarMake(models.Model):
     name = models.CharField(null=False, max_length=100)
     description = models.TextField()
-   
     def __str__(self):
         return "Name: " + self.name + "," + \
             "Description: " + self.description
 
 class CarModel(models.Model):
 
+    
     CAR_TYPES = [
         ('SEDAN', 'Sedan'),
         ('SUV', 'SUV'),
@@ -22,7 +22,7 @@ class CarModel(models.Model):
         ('CONVERTIBLE', 'Convertible'),
         ('HATCHBACK', 'Hatchback'),
         ('WAGON', 'Wagon'),
-        ('MINIVAN', 'Minivan'),  
+        ('MINIVAN', 'Minivan'),
     ]
 
     car_make = models.ForeignKey(CarMake, null=True, on_delete=models.CASCADE)
@@ -35,5 +35,5 @@ class CarModel(models.Model):
 
     def __str__(self):
         return "Name: " + self.name + ", " + \
-        "Type: " + self.type + ", " + \
-        "Year: " + str(self.year)
+            "Type: " + self.type + ", " + \
+            "Year: " + str(self.year)
