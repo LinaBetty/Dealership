@@ -7,7 +7,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class CarMake(models.Model):
     name = models.CharField(null=False, max_length=100)
     description = models.TextField()
-    
+
     def __str__(self):
         return "Name: " + self.name + "," + \
             "Description: " + self.description
