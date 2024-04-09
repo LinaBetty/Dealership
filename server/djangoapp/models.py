@@ -7,6 +7,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class CarMake(models.Model):
     name = models.CharField(null=False, max_length=100)
     description = models.TextField()
+    
     def __str__(self):
         return "Name: " + self.name + "," + \
             "Description: " + self.description
@@ -28,7 +29,7 @@ class CarModel(models.Model):
     name = models.CharField(null=False, max_length=100)
     type = models.CharField(null=False, max_length=20,
                             choices=CAR_TYPES, default='SUV')
-    year = models.IntegerField(default=2023, validators= [
+    year = models.IntegerField(default=2023, validators=[
             MinValueValidator(2015, message='The year must be ' +
                               'greater or equal than 2015'),
             MaxValueValidator(2023, message='The year must be ' +
