@@ -5,11 +5,15 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+searchcars_url = os.getenv(
+    'searchcars_url',
+    default="http://localhost:3050/")
+
 backend_url = os.getenv(
     'backend_url', default="http://localhost:3030")
-sentiment_analyzer_url = os.getenv(
+""" sentiment_analyzer_url = os.getenv(
     'sentiment_analyzer_url',
-    default="http://localhost:5050/")
+    default="http://localhost:5050/") """
 
 
 # def get_request(endpoint, **kwargs):
@@ -46,12 +50,34 @@ def post_review(data_dict):
         print(f"Error: {e} Network exception occurred")
 
 
-def analyze_review_sentiments(text):
-    request_url = sentiment_analyzer_url+"analyze/"+text
+# def analyze_review_sentiments(text):
+#     request_url = sentiment_analyzer_url+"analyze/"+text
+#     try:
+#         # Call get method of requests library with URL and parameters
+#         response = requests.get(request_url)
+#         return response.json()
+#     except Exception as err:
+#         print(f"Unexpected {err=}, {type(err)=}")
+#         print("Network exception occurred")
+
+
+# def get_request(endpoint, **kwargs):
+# Add code for get requests to back end
+def searchcars_request(endpoint, **kwargs):
+    params = ""
+    if (kwargs):
+        for key, value in kwargs.items():
+            params = params+key+"="+value+"&"
+
+    request_url = searchcars_url+endpoint+"?"+params
+
+    print("GET from {} ".format(request_url))
     try:
         # Call get method of requests library with URL and parameters
         response = requests.get(request_url)
         return response.json()
-    except Exception as err:
-        print(f"Unexpected {err=}, {type(err)=}")
-        print("Network exception occurred")
+    except Exception as e:
+        # If any error occurs
+        print(f"Error: {e} Network exception occurred")
+    finally:
+        print("GET request call complete!")

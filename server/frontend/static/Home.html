@@ -1,80 +1,137 @@
 <html>
+
 <head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
   <link rel="stylesheet" href="static/style.css">
   <link rel="stylesheet" href="static/bootstrap.min.css">
-<script>
 
-const logout = async (e) => {
-//Include the code for logout here.
-    let logout_url = window.location.origin+"/djangoapp/logout";
-    const res = await fetch(logout_url, {
+  <title>Dealership Home Page</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="static/assets/css/main.css" />
+  <link rel="icon" type="image/png" href="static/dealericon.png">
+  <script>
+
+    const logout = async (e) => {
+      //Include the code for logout here.
+      let logout_url = window.location.origin + "/djangoapp/logout";
+      const res = await fetch(logout_url, {
         method: "GET",
-    });
+      });
 
-    const json = await res.json();
-    if (json) {
+      const json = await res.json();
+      if (json) {
         let username = sessionStorage.getItem('username');
         sessionStorage.removeItem('username');
         window.location.href = window.location.origin;
         window.location.reload();
-        alert("Logging out "+username+"...")
-    }
-    else {
+        alert("Logging out " + username + "...")
+      }
+      else {
         alert("The user could not be logged out.")
+      }
+    };
+
+    let checkSession = () => {
+      let curr_user = sessionStorage.getItem("username");
+
+      if (curr_user && curr_user !== "") {
+        document.getElementById("loginlogout").innerHTML =
+          '<span class="homepage_links">' + curr_user + '</span>' +
+          '<a class="homepage_links button primary solid" style="margin-top: 20%;" onclick="logout()" href="/">Logout</a>'
+      } else {
+        document.getElementById("loginlogout").innerHTML =
+          '<a class="homepage_links button primary solid" style="margin-right: 1%;" href="/login">Login</a>' +
+          '<a class="homepage_links button primary solid" href="/register" ;>Register</a>'
+      }
     }
-};
-
-let checkSession = ()=>{
-  let curr_user = sessionStorage.getItem("username");
-
-  if (curr_user && curr_user !== "") {
-    document.getElementById("loginlogout").innerHTML = 
-    '<span class="homepage_links">' + curr_user +'</span>' +
-    '<a class="homepage_links" onclick="logout()" href="/">Logout</a>'
-  } else {
-    document.getElementById("loginlogout").innerHTML = 
-    '<a class="homepage_links" href="/login">Login</a>'+
-    '<a class="homepage_links"  href="/register">Register</a>'
-  }
- }
-</script>
+  </script>
 </head>
-<body onload="checkSession()">
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color:darkturquoise; height: 1in;">
-  <div class="container-fluid">
-    <h2 style="padding-right: 5%;">Dealerships</h2>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" style="font-size: larger;" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="font-size: larger;" href="/about">About Us</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="font-size: larger;" href="/contact">Contact Us</a>
-        </li>
-      </ul>
-      <span class="navbar-text">
-        <div class="loginlink" id="loginlogout">
-        </div>
-        </span>
+
+<body onload="checkSession()" class="is-preload" style="background-image: url('static/ChatGPT.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;">
+
+  <div id="wrapper">
+    <div id="main">
+      <div class="inner">
+
+        <!-- Header -->
+        <header id="header" style="padding-top: 0%; padding-bottom: 0%;">
+          <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+              <img src="static/dealericon.png" alt="Dealership icon"
+                style="padding-right: 0%; padding-top: 0%; width: 5%; height: 5%;">
+              <h2 style="padding-right: 5%; padding-top: 2%;">Dealerships</h2>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="logo active" style="font-size: larger;" aria-current="page" href="#">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="logo" style="font-size: larger;" href="/about">About Us</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="logo" style="font-size: larger;" href="/contact">Contact Us</a>
+                  </li>
+                </ul>
+                <span class="navbar-text">
+                  <div class="loginlink" id="loginlogout">
+                  </div>
+                </span>
+              </div>
+            </div>
+          </nav>
+        </header>
+
+        <!-- Banner -->
+        <section id="banner" style="padding-top: 3%;">
+          <div class="content">
+            <header>
+              <h1>Hi, Welcome to our Dealerships!</h1>
+              <p style="color: black;">Where great deals meet great service!</p>
+            </header>
+            <p style="color: black;">Explore our wide selection of vehicles and drive away with confidence today. </br>
+              We’re proud to offer a wide selection of new and pre-owned vehicles to fit every lifestyle and budget.
+              Whether you’re shopping for your first car, upgrading to something new, or looking for expert maintenance
+              you can trust,
+              our team is here to help every step of the way.
+            </p>
+            <ul class="actions">
+              <li><a href="/dealers" class="homepage_links button primary solid">View Dealerships</a></li>
+            </ul>
+          </div>
+          <span class="object">
+            <img src="static/PngItem_2056611.png" alt="" style="width:100%; margin-top: 10%; margin-left: 5%;"/>
+          </span>
+        </section>
+
+        <!-- Footer -->
+        <footer id="footer">
+          <p style="color: black;" class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a
+              href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+        </footer>
+
+      </div>
     </div>
   </div>
-</nav>
-<div style="display: flex;flex-direction: column;">
-<div class="card" style="width: 50%;margin-top: 50px;align-self: center;">
-  <img src="static/car_dealership.jpg" class="card-img-top" alt="...">
-  <div class="banner">
-    <h5>Welcome to our Dealerships!</h5>
-    <a href="/dealers" class="btn" style="background-color: aqua;margin:10px">View Dealerships</a>
-  </div>
-</div>
-</div>
+
+  <!-- Scripts -->
+  <script src="static/assets/js/jquery.min.js"></script>
+  <script src="static/assets/js/browser.min.js"></script>
+  <script src="static/assets/js/breakpoints.min.js"></script>
+  <script src="static/assets/js/util.js"></script>
+  <script src="static/assets/js/main.js"></script>
+
 </body>
+
 </html>

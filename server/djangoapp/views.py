@@ -15,8 +15,11 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from .populate import initiate
 from .models import CarMake, CarModel
-from .restapis import get_request, analyze_review_sentiments
+from .restapis import get_request, searchcars_request  #analyze_review_sentiments 
 from .restapis import post_review
+
+from nltk.sentiment import SentimentIntensityAnalyzer
+sia = SentimentIntensityAnalyzer()
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -108,6 +111,22 @@ def get_dealerships(request, state="All"):
     dealerships = get_request(endpoint)
     return JsonResponse({"status": 200, "dealers": dealerships})
 
+def analyze_sentiment(input_txt):
+
+    scores = sia.polarity_scores(input_txt)
+    print(scores)
+    pos = float(scores['pos'])
+    neg = float(scores['neg'])
+    neu = float(scores['neu'])
+    res = "positive"
+    print("pos neg nue ", pos, neg, neu)
+    if (neg > pos and neg > neu):
+        res = "negative"
+    elif (neu > neg and neu > pos):
+        res = "neutral"
+    #res = json.dumps({"sentiment": res})
+    print(res)
+    return res
 
 # Create a `get_dealer_reviews` view to render the reviews of a dealer
 def get_dealer_reviews(request, dealer_id):
@@ -116,9 +135,10 @@ def get_dealer_reviews(request, dealer_id):
         endpoint = "/fetchReviews/dealer/"+str(dealer_id)
         reviews = get_request(endpoint)
         for review_detail in reviews:
-            response = analyze_review_sentiments(review_detail['review'])
+            response = analyze_sentiment(review_detail['review'])
             print(response)
-            review_detail['sentiment'] = response['sentiment']
+            review_detail['sentiment'] = response
+            # review_detail['sentiment'] = 'good'
         return JsonResponse({"status": 200, "reviews": reviews})
     else:
         return JsonResponse({"status": 400, "message": "Bad Request"})
@@ -145,3 +165,26 @@ def add_review(request):
                                  "Error in posting review"})
     else:
         return JsonResponse({"status": 403, "message": "Unauthorized"})
+
+
+# Update the `get_dealerships` render list of dealerships all by default,
+def get_inventory(request, dealer_id):
+    data = request.GET
+    if (dealer_id):
+        if 'year' in data:
+            endpoint = "/carsbyyear/"+str(dealer_id)+"/"+data['year']
+        elif 'make' in data:
+            endpoint = "/carsbymake/"+str(dealer_id)+"/"+data['make']
+        elif 'model' in data:
+            endpoint = "/carsbymodel/"+str(dealer_id)+"/"+data['model']
+        elif 'mileage' in data:
+            endpoint = "/carsbymaxmileage/"+str(dealer_id)+"/"+data['mileage']
+        elif 'price' in data:
+            endpoint = "/carsbyprice/"+str(dealer_id)+"/"+data['price']
+        else:
+            endpoint = "/cars/"+str(dealer_id)
+            
+        cars = searchcars_request(endpoint)
+        return JsonResponse({"status": 200, "cars": cars})
+    else:
+        return JsonResponse({"status": 400, "message": "Bad Request"})

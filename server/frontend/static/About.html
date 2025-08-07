@@ -1,73 +1,157 @@
 <html>
+
 <head>
-  <!-- Link the style sheet here -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/static/style.css">
   <link rel="stylesheet" href="/static/bootstrap.min.css">
+
   <title>About Us</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="/static/assets/css/main.css" />
+  <link rel="icon" type="image/png" href="/static/dealericon.png">
+  <script>
+
+    const logout = async (e) => {
+      //Include the code for logout here.
+      let logout_url = window.location.origin + "/djangoapp/logout";
+      const res = await fetch(logout_url, {
+        method: "GET",
+      });
+
+      const json = await res.json();
+      if (json) {
+        let username = sessionStorage.getItem('username');
+        sessionStorage.removeItem('username');
+        window.location.href = window.location.origin;
+        window.location.reload();
+        alert("Logging out " + username + "...")
+      }
+      else {
+        alert("The user could not be logged out.")
+      }
+    };
+
+    let checkSession = () => {
+      let curr_user = sessionStorage.getItem("username");
+
+      if (curr_user && curr_user !== "") {
+        document.getElementById("loginlogout").innerHTML =
+          '<span class="homepage_links">' + curr_user + '</span>' +
+          '<a class="homepage_links button primary solid" style="margin-top: 20%;" onclick="logout()" href="/">Logout</a>'
+      } else {
+        document.getElementById("loginlogout").innerHTML =
+          '<a class="homepage_links button primary solid" style="margin-right: 1%;" href="/login">Login</a>' +
+          '<a class="homepage_links button primary solid" href="/register" ;>Register</a>'
+      }
+    }
+  </script>
 </head>
-<div>
-  <nav class="navbar navbar-expand-lg navbar-light" style="background-color:darkturquoise; height: 1in;">
-    <div class="container-fluid">
-      <h2 style="padding-right: 5%;">Dealerships</h2>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" style="font-size: larger;" aria-current="page" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" style="font-size: larger;" href="/about">About Us</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" style="font-size: larger;" href="/contact">Contact Us</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  
-    <div class="card" style="width: 80%;margin: auto; margin-top:5%;">
-      <div class="banner" name="about-header">
-      <!-- Insert header information here -->
-        <h1>About Us</h1>
-        Welcome to Best Cars dealership, home to the best cars in North America. We deal in sale of domestic and imported cars at reasonable prices.
-      </div>
-      <div style="display: flex;flex-direction: row; margin:auto">
-      <div class="card" style="width: 30%;">
-        <img class="card-img-top" src="https://img.freepik.com/free-photo/smiley-businesswoman-posing-outdoors-with-arms-crossed-copy-space_23-2148767055.jpg" alt="Card image">
-        <div class="card-body">
-          <p class="title">Aya Tanaka</p>
-          <p>CEO (Chief Executive Officer)</p>
-          <p class="card-text">Aya is a visionary leader with a long track record in the business sector. With a strategic mindset and exceptional decision-making skills, she has propelled the company to new levels of success. She is known for his innovative approach and ability to inspire his team.</p>
-          <p>tanaka@dealerships.com</p>
-        </div>
-      </div>
 
-      <div class="card" style="width: 30%;">
-        <img class="card-img-top" src="https://media.istockphoto.com/id/1354898581/photo/shot-of-a-young-businessman-using-a-laptop-in-a-modern-office.jpg?s=612x612&w=0&k=20&c=dDDNcvIoG-4VdO01ZlENqODBoNocT434vIFp0duuTZM=" alt="Card image">
-        <div class="card-body">
-          <p class="title">Takeshi Yamamoto</p>
-          <p>COO (Chief Operating Officer)</p>
-          <p class="card-text">Takeshi is a highly organized and results-driven executive. His expertise in operations management and his ability to optimize processes have significantly contributed to the company's growth and efficiency. He is recognized for her problem-solving skills and pragmatic approach.</p>
-          <p>yamamoto@dealerships.com</p>
-        </div>
-      </div>
+<body onload="checkSession()" class="is-preload">
 
-      <div class="card" style="width: 30%;">
-        <img class="card-img-top" src="https://media.istockphoto.com/id/495827884/photo/you-are-the-creator-of-your-own-success.jpg?s=612x612&w=0&k=20&c=85c3fiwXwTIscqx2O00C2P4MIoWLtmyXRCWoQ5LZ1Cw=" alt="Card image">
-        <div class="card-body">
-          <p class="title">Kenji Nakamura</p>
-          <p>CFO (Chief Financial Officer)</p>
-          <p class="card-text">Kenji is a finance expert with a solid background in accounting and financial analysis. His ability to manage financial resources effectively and focus on profitability has been instrumental in the company's financial stability. He is known for his integrity and ability to make sound financial decisions.</p>
-          <p>nakamura@dealerships.com</p>
-        </div>
+  <div id="wrapper">
+    <div id="main">
+      <div class="inner">
+
+        <!-- Header -->
+        <header id="header" style="padding-top: 0%; padding-bottom: 0%;">
+          <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+              <img src="/static/dealericon.png" alt="Dealership icon"
+                style="padding-right: 0%; padding-top: 0%; width: 5%; height: 5%;">
+              <h2 style="padding-right: 5%; padding-top: 2%;">Dealerships</h2>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="logo active" style="font-size: larger;" aria-current="page" href="/">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="logo" style="font-size: larger;" href="/about">About Us</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="logo" style="font-size: larger;" href="/contact">Contact Us</a>
+                  </li>
+                </ul>
+                <span class="navbar-text">
+                  <div class="loginlink" id="loginlogout">
+                  </div>
+                </span>
+              </div>
+            </div>
+          </nav>
+        </header>
+
+        <!-- Section -->
+        <section style="padding-top: 3%;"> 
+          <header class="major" style="margin-bottom: -3%;">
+            <h2>About Us</h2>
+          </header>
+          <p style="color: black;"> Meet the team behind the business.</p>
+          <div class="posts">
+            <article>
+              <img class="card-img-top" style="width: 425px; height: 283px;"
+                src="https://img.freepik.com/free-photo/smiley-businesswoman-posing-outdoors-with-arms-crossed-copy-space_23-2148767055.jpg"
+                alt="Card image">
+              <div class="card-body">
+                <p class="title">Aya Tanaka</p>
+                <p style="color: black;">CEO (Chief Executive Officer)</p>
+                <p style="color: black;" class="card-text">Aya is a visionary leader with a long track record in the business sector. With a
+                  strategic mindset and exceptional decision-making skills, she has propelled the company to new
+                  levels
+                  of success. She is known for his innovative approach and ability to inspire his team.</p>
+                <p style="color: black;">tanaka@dealerships.com</p>
+                </br>
+                <ul class="actions">
+                  <li><a href="#" class="homepage_links button primary solid">More</a></li>
+                </ul>
+            </article>
+            <article>
+              <img class="card-img-top" style="width: 425px; height: 283px;"
+                src="https://media.istockphoto.com/id/1354898581/photo/shot-of-a-young-businessman-using-a-laptop-in-a-modern-office.jpg?s=612x612&w=0&k=20&c=dDDNcvIoG-4VdO01ZlENqODBoNocT434vIFp0duuTZM="
+                alt="Card image">
+              <div class="card-body">
+                <p class="title">Takeshi Yamamoto</p>
+                <p style="color: black;">COO (Chief Operating Officer)</p>
+                <p style="color: black;" class="card-text">Takeshi is a highly organized and results-driven executive. His expertise in
+                  operations management and his ability to optimize processes have significantly contributed to the
+                  company's growth and efficiency. He is recognized for her problem-solving skills and pragmatic
+                  approach.</p>
+                <p style="color: black;">yamamoto@dealerships.com</p>
+              </div>
+              <ul class="actions">
+                <li><a href="#" class="homepage_links button primary solid">More</a></li>
+              </ul>
+            </article>
+
+            <article>
+              <img class="card-img-top"
+                src="https://media.istockphoto.com/id/495827884/photo/you-are-the-creator-of-your-own-success.jpg?s=612x612&w=0&k=20&c=85c3fiwXwTIscqx2O00C2P4MIoWLtmyXRCWoQ5LZ1Cw="
+                alt="Card image">
+              <div class="card-body">
+                <p class="title">Kenji Nakamura</p>
+                <p style="color: black;">CFO (Chief Financial Officer)</p>
+                <p style="color: black;" class="card-text">Kenji is a finance expert with a solid background in accounting and financial
+                  analysis. His ability to manage financial resources effectively and focus on profitability has been
+                  instrumental in the company's financial stability. He is known for his integrity and ability to make
+                  sound financial decisions.</p>
+                <p style="color: black;">nakamura@dealerships.com</p>
+              </div>
+              <ul class="actions">
+                <li><a href="#" class="homepage_links button primary solid">More</a></li>
+              </ul>
+            </article>
+          </div>
       </div>
     </div>
-    </div>
-    </div>
-    
-</div>
+  </div>
 
 </html>

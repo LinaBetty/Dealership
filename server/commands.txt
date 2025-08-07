@@ -1,0 +1,17 @@
+Django Superuser
+user/password linau
+
+Prepare Django
+pip install virtualenv
+python -m virtualenv venv
+venv\Scripts\activate
+python manage.py makemigrations
+python manage.py migrate or python manage.py migrate --run-syncdb (in case the tables has not been created yet)
+python manage.py runserver
+
+Prepare REACT
+npm install
+npm run build
+
+Run Express
+node app.js
